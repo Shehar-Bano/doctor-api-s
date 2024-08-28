@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
+    public function index(){
+        $user = User::get();
+        return response()->json([
+            'message'=>'all post',
+            'data'=>$user,
+
+        ],200);
+    }
     public function register(Request $request){
         $validatedata = $request->validate([
             'name' =>'required|string|max:255',
@@ -70,5 +78,5 @@ class AuthController extends Controller
     }
 
 
-  
+
 }
