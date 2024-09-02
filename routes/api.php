@@ -31,10 +31,6 @@ Route::post('/feature/store', [FeatureController::class,'store']);
 Route::get('/feature/{id}', [FeatureController::class,'show']);
 Route::post('/feature/update/{id}', [FeatureController::class,'update']);
 Route::get('/feature/delete/{id}', [FeatureController::class,'destroy']);
-
-
-
-
 ///////////////////////member
 Route::get('/member', [MemberController::class,'index']);
 Route::post('/member/store', [MemberController::class,'store']);
