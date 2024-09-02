@@ -36,14 +36,23 @@ class AuthController extends Controller
         $token = auth('api')->login($user);
         return $this->respondWithToken($token);
     }
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        // Validate the email and password fields
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+        $credentials = $request->only('email', 'password');
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized','message' => 'The provided credentials do not match our records.'], 401);
+            return response()->json([
+                'error' => 'Unauthorized',
+                'message' => 'The provided credentials do not match our records.'
+            ], 401);
         }
         return $this->respondWithToken($token);
     }
+
 
 
     public function me()

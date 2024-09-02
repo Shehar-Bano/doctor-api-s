@@ -34,6 +34,15 @@ class AppointmentController extends Controller
             'medications' => 'nullable|string|max:1000',
             'allergies' => 'nullable|string|max:1000',
         ]);
+        $existingAppointment = Appointment::where('appointment_date', $request->appointment_date)
+        ->where('appointment_time', $request->appointment_time)
+        ->first();
+
+    if ($existingAppointment) {
+        return response()->json([
+            'error' => 'The appointment is already booked for the selected date and time.'
+        ], 409); // Conflict status code
+    }
 
         // Store the appointment in the database
         $appointment = new Appointment();
@@ -72,17 +81,23 @@ class AppointmentController extends Controller
     }
     public function update(Request $request, string $id)
     {
+        $appointment = Appointment::find($id);
 
-        $appointment=Appointment::find($id);
+        if (!$appointment) {
+            return response()->json([
+                'error' => 'Appointment not found.'
+            ], 404);
+        }
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'dob' => 'required',
+            'dob' => 'required|date',
             'gender' => 'nullable|in:male,female,other',
             'phone_number' => 'required|string|max:15',
             'email' => 'nullable|email|max:255',
-            'appointment_date' => 'required',
-            'appointment_time' => 'nullable',
+            'appointment_date' => 'required|date',
+            'appointment_time' => 'nullable|date_format:H:i:s',
             'appointment_type' => 'required|string|max:255',
             'reason_for_appointment' => 'nullable|string|max:1000',
             'medical_conditions' => 'nullable|string|max:1000',
@@ -90,7 +105,19 @@ class AppointmentController extends Controller
             'allergies' => 'nullable|string|max:1000',
         ]);
 
-        // Store the appointment in the databas
+        // Check if the same date and time is already booked by another appointment
+        $existingAppointment = Appointment::where('appointment_date', $request->appointment_date)
+            ->where('appointment_time', $request->appointment_time)
+            ->where('id', '!=', $id) // Exclude the current appointment
+            ->first();
+
+        if ($existingAppointment) {
+            return response()->json([
+                'error' => 'The appointment slot is already booked for the selected date and time.'
+            ], 409); // Conflict status code
+        }
+
+        // Update the appointment with validated data
         $appointment->first_name = $request->first_name;
         $appointment->last_name = $request->last_name;
         $appointment->dob = $request->dob;
@@ -107,11 +134,11 @@ class AppointmentController extends Controller
         $appointment->save();
 
         return response()->json([
-            'message'=>'member updated',
-            'data'=>$appointment,
-
+            'message' => 'Appointment updated successfully.',
+            'data' => $appointment,
         ], 200);
     }
+
     public function destroy(string $id)
     {
         $appointment= Appointment::find($id);
