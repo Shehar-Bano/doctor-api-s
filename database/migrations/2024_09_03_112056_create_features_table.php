@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('features', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('service_category');
+            $table->foreign('service_category')->references('id')->on('categories')->cascadeOnDelete();
             $table->string('hover_img');
             $table->string('main_img');
             $table->json('point')->nullable();;

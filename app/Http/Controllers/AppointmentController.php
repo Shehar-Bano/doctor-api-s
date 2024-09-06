@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 
@@ -9,17 +10,20 @@ class AppointmentController extends Controller
 {
     public function index()
     {
+
         $appointment = Appointment::all();
         return response()->json([
             'message'=>'list of Appointments',
             'data'=> $appointment
         ]);
     }
-    public function store(Request $request)
+    public function store(Request $request,$id)
 {
 
+    $member = Member::find($id);
         // Store hover and main images
         $request->validate([
+            'member_id'=>'required',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
@@ -46,6 +50,7 @@ class AppointmentController extends Controller
 
         // Store the appointment in the database
         $appointment = new Appointment();
+        $appointment->member_id = $member->id;
         $appointment->first_name = $request->first_name;
         $appointment->last_name = $request->last_name;
         $appointment->dob = $request->dob;
@@ -90,6 +95,7 @@ class AppointmentController extends Controller
         }
 
         $request->validate([
+            'member_id'=>'required',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'dob' => 'required|date',
@@ -143,7 +149,7 @@ class AppointmentController extends Controller
     {
         $appointment= Appointment::find($id);
         return response()->json([
-            'message'=>'member deleted',
+            'message'=>'appointment deleted',
             'data'=>$appointment->delete(),
 
         ], 200);

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Advantage;
 use App\Models\Feature;
-use App\Models\Tip;
-use App\Models\Work;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class FeatureController extends Controller
@@ -18,7 +16,7 @@ class FeatureController extends Controller
             'data'=>$feature
         ]);
     }
-    public function store(Request $request)
+    public function store(Request $request,$id)
 {
     // Validate the request
     $request->validate([
@@ -33,12 +31,17 @@ class FeatureController extends Controller
         'description' => 'required|string',
     ]);
 
+        $category =  Category::find($id);
+        if( $category->service_category){
+
+        // $service_category = $category->service_category;
+
         // Store hover and main images
         $path = $request->file('hover_img')->store('images', 'public');
         $path1 = $request->file('main_img')->store('images', 'public');
-
         // Initialize Feature model
         $feature = new Feature();
+        $feature->service_category =  $category->id;
         $feature->hover_img = $path;
         $feature->main_img = $path1;
 
@@ -68,7 +71,11 @@ class FeatureController extends Controller
             'message' => 'New Feature created',
             'data' => $feature,
         ], 201);
-
+    }else{
+        return response()->json([
+            'message'=> 'categoies doesnot have service_category for this id 😎',
+        ]);
+    }
 
    }
 
@@ -98,7 +105,6 @@ class FeatureController extends Controller
             }
         }
         $feature->images = json_encode($images);
-
         // Store other fields
         $feature->questions_answers = json_encode($request->questions_answers);
         $feature->titles_work = json_encode($request->titles_work);
