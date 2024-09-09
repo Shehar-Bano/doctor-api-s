@@ -47,9 +47,8 @@ class AdviceController extends Controller
     }
 
 
-    public function store(Request $request,$id)
+    public function store(Request $request)
 {
-    $member = Member::find($id);
         // Store hover and main images
         $request->validate([
             'member_id'=>'required',
@@ -60,7 +59,7 @@ class AdviceController extends Controller
 
         // Store the appointment in the database
         $advice = new Advice();
-        $advice->member_id = $member->id;
+        $advice->member_id = $advice->member_id;
         $advice->name = $request->name;
         $advice->email = $request->email;
         $advice->type_of_care = $request->type_of_care;

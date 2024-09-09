@@ -10,13 +10,14 @@ class FeatureController extends Controller
 {
     public function index()
     {
+
         $feature = Feature::all();
         return response()->json([
             'message'=>'list of feature',
             'data'=>$feature
         ]);
     }
-    public function store(Request $request,$id)
+    public function store(Request $request)
 {
     // Validate the request
     $request->validate([
@@ -31,17 +32,12 @@ class FeatureController extends Controller
         'description' => 'required|string',
     ]);
 
-        $category =  Category::find($id);
-        if( $category->service_category){
-
-        // $service_category = $category->service_category;
-
         // Store hover and main images
         $path = $request->file('hover_img')->store('images', 'public');
         $path1 = $request->file('main_img')->store('images', 'public');
         // Initialize Feature model
         $feature = new Feature();
-        $feature->service_category =  $category->id;
+        $feature->category_id =  $request->category_id;
         $feature->hover_img = $path;
         $feature->main_img = $path1;
 
@@ -54,7 +50,6 @@ class FeatureController extends Controller
             }
         }
         $feature->images = json_encode($images);
-
         // Store other fields
         $feature->questions_answers = json_encode($request->questions_answers);
         $feature->titles_work = json_encode($request->titles_work);
@@ -71,11 +66,6 @@ class FeatureController extends Controller
             'message' => 'New Feature created',
             'data' => $feature,
         ], 201);
-    }else{
-        return response()->json([
-            'message'=> 'categoies doesnot have service_category for this id 😎',
-        ]);
-    }
 
    }
 

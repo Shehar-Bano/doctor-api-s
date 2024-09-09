@@ -17,10 +17,10 @@ class AppointmentController extends Controller
             'data'=> $appointment
         ]);
     }
-    public function store(Request $request,$id)
+    public function store(Request $request)
 {
 
-    $member = Member::find($id);
+    // $member = Member::find($id);
         // Store hover and main images
         $request->validate([
             'member_id'=>'required',
@@ -50,7 +50,7 @@ class AppointmentController extends Controller
 
         // Store the appointment in the database
         $appointment = new Appointment();
-        $appointment->member_id = $member->id;
+        $appointment->member_id = $request->member_id;
         $appointment->first_name = $request->first_name;
         $appointment->last_name = $request->last_name;
         $appointment->dob = $request->dob;

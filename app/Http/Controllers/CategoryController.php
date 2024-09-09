@@ -17,11 +17,14 @@ class CategoryController extends Controller
     }
     public function store(Request $request)
 {
-
+         $request->validate([
+            'name'=>'required',
+            'type'=>'required'
+         ]);
         // Store the appointment in the database
         $category = new Category();
-        $category->blog_category = $request->blog_category;
-        $category->service_category =$request->service_category;
+        $category->name = $request->name;
+        $category->type =$request->type;
         $category->save();
 
         // Return success response
@@ -51,8 +54,12 @@ class CategoryController extends Controller
                 'error' => 'Category not found.'
             ], 404);
         }
-        $category->blog_category = $request->blog_category;
-        $category->service_category =$request->service_category;
+        $request->validate([
+            'name'=>'required',
+            'type'=>'required'
+         ]);
+         $category->name = $request->name;
+         $category->type =$request->type;
         $category->save();
 
 

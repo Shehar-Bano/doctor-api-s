@@ -15,7 +15,7 @@ class CommentController extends Controller
             'data'=>  $comment
         ]);
     }
-    public function store(Request $request,$id)
+    public function store(Request $request)
 {
         // Store hover and main images
         $request->validate([
@@ -26,7 +26,7 @@ class CommentController extends Controller
 
         // Store the appointment in the database
         $comment = new Comment();
-        $comment->blog_id = $id;
+        $comment->blog_id = $request->blog_id;
         $comment->name = $request->name;
         $comment->email = $request->email;
         $comment->comment = $request->comment;
@@ -87,5 +87,5 @@ class CommentController extends Controller
 
         ], 200);
     }
-  
+
 }

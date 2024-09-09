@@ -31,7 +31,7 @@ Route::middleware(['auth:api'])->group(function(){
 });
 //////////////////feature
 Route::get('/feature', [FeatureController::class,'index']);
-Route::post('/feature/store/{id}', [FeatureController::class,'store']);
+Route::post('/feature/store', [FeatureController::class,'store']);
 Route::get('/feature/{id}', [FeatureController::class,'show']);
 Route::post('/feature/update/{id}', [FeatureController::class,'update']);
 Route::get('/feature/delete/{id}', [FeatureController::class,'destroy']);
@@ -44,14 +44,14 @@ Route::get('/member/delete/{id}', [MemberController::class,'destroy']);
 
 /////////////////////appointment
 Route::get('/appointment', [AppointmentController::class,'index']);
-Route::post('/appointment/store/{id}', [AppointmentController::class,'store']);
+Route::post('/appointment/store', [AppointmentController::class,'store']);
 Route::get('/appointment/{id}', [AppointmentController::class,'show']);
 Route::post('/appointment/update/{id}', [AppointmentController::class,'update']);
 Route::get('/appointment/delete/{id}', [AppointmentController::class,'destroy']);
 
 ////////////////////////////advice
 Route::get('/advice', [AdviceController::class,'index']);
-Route::post('/advice/store/{id}', [AdviceController::class,'store']);
+Route::post('/advice/store', [AdviceController::class,'store']);
 Route::get('/advice/{id}', [AdviceController::class,'show']);
 Route::post('/advice/update/{id}', [AdviceController::class,'update']);
 Route::get('/advice/delete/{id}', [AdviceController::class,'destroy']);
@@ -74,7 +74,7 @@ Route::get('/blog/comment/{id}', [BlogController::class,'comment']);
 
 ////////////////////////comment
 Route::get('/comment', [CommentController::class,'index']);
-Route::post('/comment/store/{id}', [CommentController::class,'store']);
+Route::post('/comment/store', [CommentController::class,'store']);
 Route::get('/comment/show/{id}', [CommentController::class,'show']);
 Route::post('/comment/update/{id}', [CommentController::class,'update']);
 Route::get('/comment/delete/{id}', [CommentController::class,'destroy']);
