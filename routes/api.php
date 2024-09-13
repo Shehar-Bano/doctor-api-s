@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdviceController;
 use App\Http\Controllers\AppointmentController;
 
+use App\Http\Controllers\ParacticeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -93,3 +94,11 @@ Route::post('/contact/store', [ContactController::class,'store']);
 Route::get('/contact/{id}', [ContactController::class,'show']);
 Route::post('/contact/update/{id}', [ContactController::class,'update']);
 Route::get('/contact/delete/{id}', [ContactController::class,'destroy']);
+
+/////////////////////paractice
+
+Route::get('/paractice', [ParacticeController::class,'index']);
+Route::post('/paractice/store', [ParacticeController::class,'store']);
+Route::get('/paractice/{id}', [ParacticeController::class,'show']);
+Route::post('/paractice/update/{id}', [ParacticeController::class,'update']);
+Route::get('/paractice/delete/{id}', [ParacticeController::class,'destroy']);
