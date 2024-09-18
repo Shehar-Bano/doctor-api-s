@@ -20,7 +20,7 @@ class ParacticeController extends Controller
 {
     // Validate the request
     $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         'first_name' => 'required',
         'last_name' => 'required',
         'phone' => 'required',
@@ -33,7 +33,7 @@ class ParacticeController extends Controller
         // Store hover and main images
         $path = $request->file('image')->store('images', 'public');
         // Initialize Paractice model
-        $paractice = new Paractice();
+        $paractice = new Paractice;
         $paractice->image = $path;
         $paractice->first_name = $request->first_name;
         $paractice->last_name = $request->last_name;
