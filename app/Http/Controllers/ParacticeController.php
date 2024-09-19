@@ -20,7 +20,7 @@ class ParacticeController extends Controller
 {
     // Validate the request
     $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         'first_name' => 'required',
         'last_name' => 'required',
         'phone' => 'required',
@@ -33,7 +33,7 @@ class ParacticeController extends Controller
         // Store hover and main images
         $path = $request->file('image')->store('images', 'public');
         // Initialize Paractice model
-        $paractice = new Paractice;
+        $paractice = new Paractice();
         $paractice->image = $path;
         $paractice->first_name = $request->first_name;
         $paractice->last_name = $request->last_name;
@@ -65,16 +65,29 @@ class ParacticeController extends Controller
     }
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone' => 'required',
+            'gender' => 'required',
+            'country' => 'required|max:255',
+            'email' => 'required',
+        ]);
+       
         $paractice=Paractice::find($id);
-        $path = $request->file('image')->store('images', 'public');
-        $paractice->image = $path;
+        if ($request->hasFile('image')) {
+            // Store the new image and update the path
+            $path = $request->file('image')->store('images', 'public');
+            $paractice->image = $path;  // Update image only if changed
+        }
         $paractice->first_name = $request->first_name;
         $paractice->last_name = $request->last_name;
         $paractice->gender = $request->gender;
         $paractice->phone = $request->phone;
         $paractice->country = $request->country;
         $paractice->email = $request->email;
-        $paractice->password = $request->password;
+       
 
         // Save the Paractice model
         $paractice->save();
