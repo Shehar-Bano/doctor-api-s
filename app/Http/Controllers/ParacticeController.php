@@ -95,10 +95,10 @@ class ParacticeController extends Controller
                 $paractice->password = $request->new_pass;
 
             }
-            else {
-              echo "  Password does not match the current password";
+            // else {
+            //   echo "  Password does not match the current password";
 
-            }
+            // }
         }
         $paractice->save();
         return response()->json([
