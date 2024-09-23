@@ -66,16 +66,16 @@ class ParacticeController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            
+
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
             'gender' => 'required',
             'country' => 'required|max:255',
             'email' => 'required',
-            
+
         ]);
-       
+
         $paractice=Paractice::find($id);
         if ($request->hasFile('image')) {
             // Store the new image and update the path
@@ -88,7 +88,6 @@ class ParacticeController extends Controller
         $paractice->phone = $request->phone;
         $paractice->country = $request->country;
         $paractice->email = $request->email;
-        $paractice->password = $request->password;
         if($request->password == $paractice->password){
             $paractice->password = $request->password;
         }
@@ -96,10 +95,10 @@ class ParacticeController extends Controller
         return response()->json([
 
             'message'=> 'password does not match'
-    
-            ])
-        
-       
+
+        ]);
+
+
 
         // Save the Paractice model
         $paractice->save();
