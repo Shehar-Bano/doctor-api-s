@@ -91,22 +91,23 @@ class ParacticeController extends Controller
 
         if ($request->password) {
 
-            if ($request->password == $paractice->password) {
+            if ($request->password === $paractice->password) {
                 $paractice->password = $request->new_pass;
+
             }
             else {
-                return response()->json([
-                    'message' => 'Password does not match the current password'
-                ]);
+              echo "  Password does not match the current password";
+
             }
         }
-
-
         $paractice->save();
         return response()->json([
             'message'=>'paractice updated',
             'data'=>$paractice,
         ], 200);
+
+
+
     }
     public function destroy(string $id)
     {
