@@ -90,32 +90,22 @@ class ParacticeController extends Controller
         $paractice->email = $request->email;
         if (empty($request->password)) {
             $paractice->password = $paractice->password;
-            $paractice->save();
+        } elseif ($request->password != $paractice->password) {
+           
+            return response()->json([
+                'message' => 'Password does not match the current password'
+            ]);
+        } elseif ($request->password == $paractice->password) {
+            // If the password matches, save the new password
+            $paractice->password = $request->password;  // Assuming new password is passed as 'new_password'
+        }
+        // Save the Paractice model
+        $paractice->save();
         return response()->json([
             'message'=>'paractice updated',
             'data'=>$paractice,
 
         ], 200);
-        } 
-        elseif ($request->password != $paractice->password) {
-            $paractice->save();
-            return response()->json([
-                'message' => 'Password does not match the current password'
-            ]);
-            
-        }
-         elseif ($request->password == $paractice->password) {
-            // If the password matches, save the new password
-            $paractice->password = $request->password; 
-            $paractice->save();
-            return response()->json([
-                'message'=>'paractice updated',
-                'data'=>$paractice,
-    
-            ], 200);// Assuming new password is passed as 'new_password'
-        }
-        // Save the Paractice model
-        
     }
     public function destroy(string $id)
     {
