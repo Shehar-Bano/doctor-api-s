@@ -91,7 +91,7 @@ class ParacticeController extends Controller
 
         if ($request->password) {
 
-            if ($request->password === $paractice->password) {
+            if ($request->password == $paractice->password) {
                 $paractice->password = $request->new_pass;
 
             }
