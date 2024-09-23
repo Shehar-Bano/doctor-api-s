@@ -100,6 +100,7 @@ class ParacticeController extends Controller
                     'message' => 'Password does not match the current password'
                 ]);
             }
+           
         }
         $paractice->save();
         return response()->json([
