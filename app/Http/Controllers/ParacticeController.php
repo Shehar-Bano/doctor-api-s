@@ -88,20 +88,21 @@ class ParacticeController extends Controller
         $paractice->phone = $request->phone;
         $paractice->country = $request->country;
         $paractice->email = $request->email;
-
-
-        if($request->password == $paractice->password){
-            $paractice->password = $request->password;
+        if (empty($request->password)) {
+            $paractice->password = $paractice->password;
+            $paractice->save();
+        } 
+        elseif ($request->password != $paractice->password) {
+           
+            return response()->json([
+                'message' => 'Password does not match the current password'
+            ]);
         }
-        else
-        return response()->json([
-
-            'message'=> 'password does not match'
-
-        ]);
-
-
-
+         elseif ($request->password == $paractice->password) {
+            // If the password matches, save the new password
+            $paractice->password = $request->password; 
+            $paractice->save(); // Assuming new password is passed as 'new_password'
+        }
         // Save the Paractice model
         $paractice->save();
         return response()->json([
