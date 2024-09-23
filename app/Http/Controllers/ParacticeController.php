@@ -88,6 +88,8 @@ class ParacticeController extends Controller
         $paractice->phone = $request->phone;
         $paractice->country = $request->country;
         $paractice->email = $request->email;
+
+
         if($request->password == $paractice->password){
             $paractice->password = $request->password;
         }
